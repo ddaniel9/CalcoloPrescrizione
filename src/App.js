@@ -8,6 +8,8 @@
 
 import React from 'react';
 import {DatePicker} from "react-native-common-date-picker";
+import RNPickerSelect from 'react-native-picker-select';
+// import SelectDropdown from 'react-native-select-dropdown'
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -53,9 +55,25 @@ const Section = ({children, title}): Node => {
   );
 };
 
+const sports = [
+  {
+    label: 'Football',
+    value: 'football',
+  },
+  {
+    label: 'Baseball',
+    value: 'baseball',
+  },
+  {
+    label: 'Hockey',
+    value: 'hockey',
+  },
+];
+
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
+  const countries = ["Egypt", "Canada", "Australia", "Ireland"];
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -63,6 +81,15 @@ const App: () => Node = () => {
   return (
     <SafeAreaView style={backgroundStyle}>
         <DatePicker confirm={date => {console.warn(date)}}/>
+        <Text>useNativeAndroidPickerStyle (default)</Text>
+      <RNPickerSelect
+            onValueChange={(value) => console.log(value)}
+            items={[
+                { label: 'Football', value: 'football' },
+                { label: 'Baseball', value: 'baseball' },
+                { label: 'Hockey', value: 'hockey' },
+            ]}
+        />
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
@@ -72,8 +99,6 @@ const App: () => Node = () => {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          
-
           <Section title="Step One">
             Edit <Text style={styles.highlight}>App.js</Text> to change this
             screen and then come back to see your edits.

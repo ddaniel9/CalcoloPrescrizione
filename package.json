@@ -10,9 +10,12 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-picker/picker": "^2.4.0",
     "react": "17.0.2",
     "react-native": "0.68.0",
-    "react-native-common-date-picker": "^2.3.7"
+    "react-native-common-date-picker": "^2.3.7",
+    "react-native-picker-select": "^8.0.4",
+    "react-native-select-dropdown": "^1.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
