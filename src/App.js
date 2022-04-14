@@ -6,12 +6,12 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React,{Component} from 'react';
 import {DatePicker} from "react-native-common-date-picker";
 import RNPickerSelect from 'react-native-picker-select';
 // import SelectDropdown from 'react-native-select-dropdown'
-import type {Node} from 'react';
-import {
+// import type {Node} from 'react'; 
+import { 
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -19,41 +19,42 @@ import {
   Text,
   useColorScheme,
   View,
+  Button
 } from 'react-native';
 
 import {
   Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
+  // DebugInstructions,
+  // Header,
+  // LearnMoreLinks,
+  // ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+// const Section = ({children, title}): Node => {
+//   const isDarkMode = useColorScheme() === 'dark';
+//   return (
+//     <View style={styles.sectionContainer}>
+//       <Text
+//         style={[
+//           styles.sectionTitle,
+//           {
+//             color: isDarkMode ? Colors.white : Colors.black,
+//           },
+//         ]}>
+//         {title}
+//       </Text>
+//       <Text
+//         style={[
+//           styles.sectionDescription,
+//           {
+//             color: isDarkMode ? Colors.light : Colors.dark,
+//           },
+//         ]}>
+//         {children}
+//       </Text>
+//     </View>
+//   );
+// };
 
 const sports = [
   {
@@ -70,53 +71,71 @@ const sports = [
   },
 ];
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const countries = ["Egypt", "Canada", "Australia", "Ireland"];
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+// const isDarkMode = useColorScheme() === 'dark';
+ 
+// const backgroundStyle = {
+//   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+// };
+export default class App extends Component {
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     jwt: '', 
+  //     loading: true
+  //   }
+  // }
+  render() { 
   return (
-    <SafeAreaView style={backgroundStyle}>
-        <DatePicker confirm={date => {console.warn(date)}}/>
-        <Text>useNativeAndroidPickerStyle (default)</Text>
+    <SafeAreaView >
+      <StatusBar />
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        >
+        {/* <Header /> */}
+        <View >
+            <DatePicker confirm={date => {console.warn(date)}}/>
+        <Text>Massimo Edittale</Text>
       <RNPickerSelect
             onValueChange={(value) => console.log(value)}
             items={[
-                { label: 'Football', value: 'football' },
-                { label: 'Baseball', value: 'baseball' },
-                { label: 'Hockey', value: 'hockey' },
+                { label: 'Scelgo io', value: 1 },
+                { label: 'Delitto', value: 'baseball' },
+                { label: 'Contravvenzione', value: 'hockey' },
             ]}
         />
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+         <Text>Circostanze</Text>
+        <RNPickerSelect
+            onValueChange={(value) => console.log(value)}
+            items={[
+                { label: 'Scelgo io', value: 1 },
+                { label: 'Delitto', value: 'baseball' },
+                { label: 'Contravvenzione', value: 'hockey' },
+            ]}
+        />
+         <Text>Interruzione</Text>
+        <RNPickerSelect
+            onValueChange={(value) => console.log(value)}
+            items={[
+                { label: 'Scelgo io', value: 1 },
+                { label: 'Delitto', value: 'baseball' },
+                { label: 'Contravvenzione', value: 'hockey' },
+            ]}
+        />
+        <Button
+        title="Calcola"
+        disabled
+        />
+        <Button
+        title="Clear"
+        color="#f194ff"
+        onPress={() => Alert.alert('Button with adjusted color pressed')}
+        />
+          {/* <LearnMoreLinks /> */}
         </View>
       </ScrollView>
     </SafeAreaView>
   );
+  }
 };
 
 const styles = StyleSheet.create({
@@ -138,4 +157,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
