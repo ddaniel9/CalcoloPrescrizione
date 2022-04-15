@@ -54,12 +54,14 @@ export default class App extends Component {
   constructor() {
     super();
     this.state = {
+        dataDiPartenza:null,
         dropdownValueME: -1,
         dropdownValueNum: 'Nessuna',
         dropdownValueCirc: 'Nessuna',
         dropdownValueInterr: 'Nessuna',
         myNumber:'6',
         editableNumber: true
+        // https://betterprogramming.pub/using-moment-js-in-react-native-d1b6ebe226d4
     }
   }
 
@@ -94,7 +96,7 @@ export default class App extends Component {
  }
   render() { 
     const { dropdownValueME,
-      myNumber,dropdownValueCirc,
+      myNumber,dropdownValueCirc,dataDiPartenza,
       editableNumber,dropdownValueInterr,dropdownValueNum } = this.state
   return (
     <SafeAreaView style={styles.container} >
@@ -103,7 +105,7 @@ export default class App extends Component {
         contentInsetAdjustmentBehavior="automatic"
         > */}
         <View >
-            <DatePicker confirm={date => {console.warn(date)}}/>
+            <DatePicker confirm={date => {console.warn(date);dataDiPartenza=date;}}/>
         <Text>Massimo Edittale</Text>
        
               <RNPickerSelect style={styles.selectBoxMax}
@@ -164,7 +166,7 @@ export default class App extends Component {
         <View style={styles.fixToText}>
         <Button
         title="Calcola"
-        disabled
+        onPress={() => Alert.alert('Button with adjusted color pressed')}
         />
         <Button
         title="Clear"
