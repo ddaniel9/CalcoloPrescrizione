@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-native-picker/picker": "^2.4.0",
+    "moment": "^2.29.2",
     "react": "17.0.2",
     "react-native": "0.68.0",
     "react-native-common-date-picker": "^2.3.7",

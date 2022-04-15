@@ -9,6 +9,8 @@
 import React,{Component} from 'react';
 import {DatePicker} from "react-native-common-date-picker";
 import RNPickerSelect from 'react-native-picker-select';
+import moment from "moment";
+
 // import SelectDropdown from 'react-native-select-dropdown'
 // import type {Node} from 'react'; 
 import { 
@@ -54,13 +56,15 @@ export default class App extends Component {
   constructor() {
     super();
     this.state = {
-        dataDiPartenza:null,
+        dataDiPartenza: moment(new Date()).format("YYYY-MM-DD"),
+        // dataDiPartenza:null,
         dropdownValueME: -1,
         dropdownValueNum: 'Nessuna',
         dropdownValueCirc: 'Nessuna',
         dropdownValueInterr: 'Nessuna',
         myNumber:'6',
         editableNumber: true
+        //Aggiungere 6 anni alla data e fare la differenza in giorni
         // https://betterprogramming.pub/using-moment-js-in-react-native-d1b6ebe226d4
     }
   }
@@ -94,6 +98,31 @@ export default class App extends Component {
       editableNumber: editableNumberT });
     console.log(value);
  }
+
+
+Calcola(){
+  const { dropdownValueME, 
+    myNumber,dropdownValueCirc,dataDiPartenza,
+    editableNumber,dropdownValueInterr,dropdownValueNum } = this.state;
+   const dataDipartenza= moment(dataDiPartenza, "YYYY-MM-DD");
+   let dataSommandoYear=moment(dataDiPartenza, "YYYY-MM-DD");
+   dataSommandoYear.add(myNumber, 'years').calendar();
+   dataSommandoYear=moment(dataSommandoYear, "YYYY-MM-DD");
+   let dataSommandoCircostanze=moment(dataSommandoYear, "YYYY-MM-DD");
+   let dateDiff = dataSommandoYear.diff(dataDipartenza, 'days');
+  //  let daysLeft = dateDiff !== null && !isNaN(dateDiff) ? (
+  //   <Text>{dateDiff} Days until your </Text>) : null;
+    // Alert.alert(dateDiff);
+    console.warn('dateDiff ',dateDiff);
+    let piuCircostanze=dateDiff*(0.25)+dateDiff;
+    console.warn('+ 1/4:  ',piuCircostanze);
+    dataSommandoCircostanze.add(piuCircostanze, 'days').calendar();
+    console.warn('dataSommandoCircostanze:  ',dataSommandoCircostanze.format('YYYY-MM-DD'));
+    console.warn('dataSommandoYear ',dataSommandoYear.format('YYYY-MM-DD'));
+    console.warn('dataDipartenza',dataDipartenza.format('YYYY-MM-DD'));
+}
+
+
   render() { 
     const { dropdownValueME,
       myNumber,dropdownValueCirc,dataDiPartenza,
@@ -105,7 +134,7 @@ export default class App extends Component {
         contentInsetAdjustmentBehavior="automatic"
         > */}
         <View >
-            <DatePicker confirm={date => {console.warn(date);dataDiPartenza=date;}}/>
+            <DatePicker confirm={date => {console.warn(date);this.setState({dataDiPartenza:date})}}/>
         <Text>Massimo Edittale</Text>
        
               <RNPickerSelect style={styles.selectBoxMax}
@@ -149,7 +178,7 @@ export default class App extends Component {
                 { label: '1/3', value: 0.33 },
                 { label: '1/2', value: 0.5 },
                 { label: '2/3', value: 0.66 },
-                { label: 'Nessuna', value: null },
+                { label: 'Nessuna', value: -1 },
             ]}
             onValueChange={this.handleDropdownChange('dropdownValueCirc')}
         />
@@ -166,7 +195,7 @@ export default class App extends Component {
         <View style={styles.fixToText}>
         <Button
         title="Calcola"
-        onPress={() => Alert.alert('Button with adjusted color pressed')}
+        onPress={() => this.Calcola()}
         />
         <Button
         title="Clear"
