@@ -58,7 +58,8 @@ export default class App extends Component {
         dropdownValueNum: 'Nessuna',
         dropdownValueCirc: 'Nessuna',
         dropdownValueInterr: 'Nessuna',
-        myNumber:'6'
+        myNumber:'6',
+        editableNumber: true
     }
   }
 
@@ -81,15 +82,20 @@ export default class App extends Component {
 
 
   handleDropdownChange = (name) => (value) => {
-    if(name=='dropdownValueME'){
-      console.warn(name)
-    }
-    this.setState({ [name]: value });
+    let editableNumberT= false;
+    if(name=='dropdownValueME' && value==-1){
+      console.warn(name,value);
+      editableNumberT=true;
+       }
+
+    this.setState({ [name]: value,
+      editableNumber: editableNumberT });
     console.log(value);
  }
   render() { 
     const { dropdownValueME,
-      myNumber,dropdownValueCirc,dropdownValueInterr,dropdownValueNum } = this.state
+      myNumber,dropdownValueCirc,
+      editableNumber,dropdownValueInterr,dropdownValueNum } = this.state
   return (
     <SafeAreaView style={styles.container} >
       <StatusBar />
@@ -118,6 +124,7 @@ export default class App extends Component {
    onChangeText={(text)=> this.onChanged(text)}
    value={myNumber}
    maxLength={2}  //setting limit of input
+   editable={editableNumber} selectTextOnFocus={editableNumber} 
 />
 <Text style={{padding: 10}}> Anni di reato </Text>
               {/* <RNPickerSelect style={styles.minSelectBox}
