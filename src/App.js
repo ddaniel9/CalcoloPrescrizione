@@ -60,7 +60,7 @@ export default class App extends Component {
         // dataDiPartenza:null,
         dropdownValueME: -1,
         dropdownValueNum: 'Nessuna',
-        dropdownValueCirc: 'Nessuna',
+        dropdownValueCirc: 0.33,
         dropdownValueInterr: 'Nessuna',
         myNumber:'6',
         editableNumber: true
@@ -104,22 +104,68 @@ Calcola(){
   const { dropdownValueME, 
     myNumber,dropdownValueCirc,dataDiPartenza,
     editableNumber,dropdownValueInterr,dropdownValueNum } = this.state;
+    if(dropdownValueME!=-1){
+      myNumber=dropdownValueME;
+    }
+//DATA DI PARTENZA:
    const dataDipartenza= moment(dataDiPartenza, "YYYY-MM-DD");
-   let dataSommandoYear=moment(dataDiPartenza, "YYYY-MM-DD");
-   dataSommandoYear.add(myNumber, 'years').calendar();
-   dataSommandoYear=moment(dataSommandoYear, "YYYY-MM-DD");
-   let dataSommandoCircostanze=moment(dataSommandoYear, "YYYY-MM-DD");
-   let dateDiff = dataSommandoYear.diff(dataDipartenza, 'days');
+   console.warn('dataDipartenza',dataDipartenza);
+//DATA PIU GLI ANNI DI REATO:
+   let dataSommandoReatoYear=moment(dataDiPartenza, "YYYY-MM-DD");
+   dataSommandoReatoYear.add(myNumber, 'years').calendar();
+   dataSommandoReatoYear=moment(dataSommandoReatoYear, "YYYY-MM-DD");
+   console.warn('dataSommandoReatoYear',dataSommandoReatoYear);
+//GIORNI TRA DATA DI PARTENZA E DATA DI REATO(GIORNI DI REATO):
+   let dateDiff = dataSommandoReatoYear.diff(dataDipartenza, 'days');
+   console.warn('dateDiff',dateDiff);
+//VERIFICA SE è PRESENTE LA CIRCOSTANZA:
+let giorniPiuCircostanze;
+if(dropdownValueCirc!=-1){
+  //GIORNI TRA DATA DI PARTENZA E DATA DI REATO PIU' LE CIRCOSTANZE:
+  giorniPiuCircostanze=((dateDiff)*(dropdownValueCirc))+dateDiff;
+  console.warn('dropdownValueCirc',dropdownValueCirc);
+}else{
+  giorniPiuCircostanze=dateDiff;
+}
+console.warn('giorniPiuCircostanze',giorniPiuCircostanze);
+//DATA TRA DATA DI PARTENZA E DATA DI REATO PIU' LE CIRCOSTANZE:
+  let dataSommandoCircostanze=moment(dataDiPartenza, "YYYY-MM-DD");
+  dataSommandoCircostanze.add(giorniPiuCircostanze, 'days').calendar();
+  console.warn('dataSommandoCircostanze',dataSommandoCircostanze);
+//ANNI di Differenza TRA reato con circostanza e Data Di Partenza
+  let anniDiffCirc = dataSommandoCircostanze.diff(dataDipartenza, 'years');
+// CONTROLLO differenza ANNI:
+    if(anniDiffCirc<6){
+      anniDiffCirc=6;
+    }
+
+
+    //TRAFORMAZIONE:
+    let dataDipartenza1= dataDipartenza;
+    //dataSommandoCircostanze=a
+    let years = dataSommandoCircostanze.diff(dataDipartenza, 'year');
+    dataDipartenza.add(years, 'years');
+
+    let months = dataSommandoCircostanze.diff(dataDipartenza, 'months');
+    dataDipartenza.add(months, 'months');
+
+    let days = dataSommandoCircostanze.diff(dataDipartenza, 'days');
+    console.warn('anniDiffCirc',anniDiffCirc);
+    Alert.alert("La prescrizione risulta di anni e in data: ",
+    years.toString() + " anni " 
+   + months.toString() + " mesi " 
+   + days.toString() + " giorni " 
+    + " "+ dataSommandoCircostanze.format("DD-MM-YYYY") );
   //  let daysLeft = dateDiff !== null && !isNaN(dateDiff) ? (
   //   <Text>{dateDiff} Days until your </Text>) : null;
     // Alert.alert(dateDiff);
-    console.warn('dateDiff ',dateDiff);
-    let piuCircostanze=dateDiff*(0.25)+dateDiff;
-    console.warn('+ 1/4:  ',piuCircostanze);
-    dataSommandoCircostanze.add(piuCircostanze, 'days').calendar();
-    console.warn('dataSommandoCircostanze:  ',dataSommandoCircostanze.format('YYYY-MM-DD'));
-    console.warn('dataSommandoYear ',dataSommandoYear.format('YYYY-MM-DD'));
-    console.warn('dataDipartenza',dataDipartenza.format('YYYY-MM-DD'));
+    // console.warn('dateDiff ',dateDiff);
+    
+    // console.warn('+ 1/4:  ',giorniPiuCircostanze);
+    
+    // console.warn('dataSommandoCircostanze:  ',dataSommandoCircostanze.format('YYYY-MM-DD'));
+    // console.warn('dataSommandoReatoYear ',dataSommandoReatoYear.format('YYYY-MM-DD'));
+    // console.warn('dataDipartenza',dataDipartenza.format('YYYY-MM-DD'));
 }
 
 
