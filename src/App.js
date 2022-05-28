@@ -61,7 +61,7 @@ export default class App extends Component {
         dropdownValueME: -1,
         dropdownValueNum: 'Nessuna',
         dropdownValueCirc: 0.33,
-        dropdownValueInterr: 'Nessuna',
+        dropdownValueInterr: -1,
         myNumber:'6',
         editableNumber: true
         //Aggiungere 6 anni alla data e fare la differenza in giorni
@@ -100,7 +100,96 @@ export default class App extends Component {
  }
 
 
+TrasformazionePeriodoInGiorni(anni,mesi,giorni){
+    let giorniTot=(anni*365)+(mesi*30)+(giorni);
+    return giorniTot;
+}
+
+TrasformazioneGiorniInAnni(giorniPer){
+  console.warn('giorniPer',giorniPer);
+  let anniTot=parseInt(giorniPer/365);
+  let mesiTot=giorniPer%365;
+  let giorniTot=0;
+  if(mesiTot<=30){
+    giorniTot=mesiTot;
+  }else{
+    mesiTot=parseInt(mesiTot/30);
+    giorniTot=mesiTot%30;
+  }
+  // let arrays= Array(anniTot,mesiTot,giorniTot);
+  let arrays = [anniTot, mesiTot, giorniTot];
+  
+  console.warn('arrays',arrays);
+  return arrays;
+}
+
+PeriodoConIncrementoFrazionarioInGiorni(incremFraz,anniCondanna,mesiCondanna,giorniCondanna){
+  let periodoEdittaleInGiorni=this.TrasformazionePeriodoInGiorni(anniCondanna,mesiCondanna,giorniCondanna);
+  console.warn('periodoEdittaleInGiorni',periodoEdittaleInGiorni);
+  let edittaleIngiorni= this.IncrementoFrazionario(periodoEdittaleInGiorni,incremFraz);
+  console.warn('edittaleIngiorni',edittaleIngiorni);
+  return edittaleIngiorni;
+}
+
+IncrementoFrazionario(periodoEdittaleInGiorni,incremFraz){
+ return (periodoEdittaleInGiorni*incremFraz) + periodoEdittaleInGiorni;
+}
+
 Calcola(){
+  const { dropdownValueME, 
+    myNumber,dropdownValueCirc,dataDiPartenza,
+    editableNumber,dropdownValueInterr,dropdownValueNum } = this.state;
+
+    if(dropdownValueME!=-1){
+      myNumber=dropdownValueME;
+    }
+    let periodoTotale=myNumber;
+    let giorniTot=this.PeriodoConIncrementoFrazionarioInGiorni(0,periodoTotale,0,0);
+    //CIRCOSTANZA
+    if(dropdownValueCirc!=-1){
+      giorniTot=this.PeriodoConIncrementoFrazionarioInGiorni(dropdownValueCirc,myNumber,0,0);
+      periodoTotale=(giorniTot/365);
+    }
+    console.warn('giorniTot',giorniTot);
+    if((periodoTotale<dropdownValueME & dropdownValueME!=-1)){
+      periodoTotale=dropdownValueME;
+      giorniTot=(periodoTotale*365);
+    }
+    console.warn('giorniTot',giorniTot);
+    if((dropdownValueME==-1 && periodoTotale<6)){
+      periodoTotale=6;
+      giorniTot=(periodoTotale*365);
+    }
+    console.warn('giorniTot',giorniTot);
+    console.warn('dropdownValueInterr',dropdownValueInterr);
+    //INTERRUZIONE
+    if(dropdownValueInterr!=-1){
+      giorniTot=this.IncrementoFrazionario(giorniTot,dropdownValueInterr);
+    }
+    console.warn('giorniTot',giorniTot);
+    let arrayperiod=this.TrasformazioneGiorniInAnni(giorniTot);
+    //Data Di partenza:
+    const dataDipartenza= moment(dataDiPartenza, "YYYY-MM-DD");
+    console.warn('dataDipartenza',dataDipartenza);
+    //DATA PIU GLI ANNI DI REATO:
+   let dataSommandoReatoYear=moment(dataDiPartenza, "YYYY-MM-DD");
+   dataSommandoReatoYear.add(arrayperiod[0], 'years').calendar();
+   dataSommandoReatoYear.add(arrayperiod[1], 'months').calendar();
+   dataSommandoReatoYear.add(arrayperiod[2], 'days').calendar();
+   dataSommandoReatoYear=moment(dataSommandoReatoYear, "YYYY-MM-DD");
+   console.warn('dataSommandoReatoYear',dataSommandoReatoYear);
+
+ 
+    Alert.alert("La prescrizione risulta di anni e in data: ",
+    arrayperiod[0].toString() + " anni " 
+   + arrayperiod[1].toString() + " mesi " 
+   + arrayperiod[2].toString() + " giorni " 
+    + " "+ dataSommandoReatoYear.format("DD-MM-YYYY") );
+
+}
+
+
+Calcola3(){
   const { dropdownValueME, 
     myNumber,dropdownValueCirc,dataDiPartenza,
     editableNumber,dropdownValueInterr,dropdownValueNum } = this.state;
@@ -221,7 +310,6 @@ console.warn('giorniPiuCircostanze',giorniPiuCircostanze);
             value={dropdownValueCirc}
             placeholder={{}}
             items={[
-                { label: '1/3', value: 0.33 },
                 { label: '1/2', value: 0.5 },
                 { label: '2/3', value: 0.66 },
                 { label: 'Nessuna', value: -1 },
@@ -231,7 +319,7 @@ console.warn('giorniPiuCircostanze',giorniPiuCircostanze);
          <Text>Interruzione</Text>
         <RNPickerSelect
             value={dropdownValueInterr}
-            placeholder={{label: "Nessuna", value: null}}
+            placeholder={{label: "Nessuna", value: -1}}
             items={[
                 { label: '1/4', value: 0.25 },
             ]}
