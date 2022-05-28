@@ -113,8 +113,8 @@ TrasformazioneGiorniInAnni(giorniPer){
   if(mesiTot<=30){
     giorniTot=mesiTot;
   }else{
-    mesiTot=parseInt(mesiTot/30);
-    giorniTot=mesiTot%30;
+    mesiTot=parseInt(mesiTot/30); 
+    giorniTot=parseInt(mesiTot%30);
   }
   // let arrays= Array(anniTot,mesiTot,giorniTot);
   let arrays = [anniTot, mesiTot, giorniTot];
@@ -154,19 +154,22 @@ Calcola(){
     if((periodoTotale<dropdownValueME & dropdownValueME!=-1)){
       periodoTotale=dropdownValueME;
       giorniTot=(periodoTotale*365);
+      console.warn('giorniTot',giorniTot);
     }
-    console.warn('giorniTot',giorniTot);
+    
     if((dropdownValueME==-1 && periodoTotale<6)){
       periodoTotale=6;
       giorniTot=(periodoTotale*365);
+      console.warn('giorniTot',giorniTot);
     }
-    console.warn('giorniTot',giorniTot);
+    
     console.warn('dropdownValueInterr',dropdownValueInterr);
     //INTERRUZIONE
     if(dropdownValueInterr!=-1){
       giorniTot=this.IncrementoFrazionario(giorniTot,dropdownValueInterr);
+      console.warn('giorniTot',giorniTot);
     }
-    console.warn('giorniTot',giorniTot);
+    
     let arrayperiod=this.TrasformazioneGiorniInAnni(giorniTot);
     //Data Di partenza:
     const dataDipartenza= moment(dataDiPartenza, "YYYY-MM-DD");
@@ -174,7 +177,9 @@ Calcola(){
     //DATA PIU GLI ANNI DI REATO:
    let dataSommandoReatoYear=moment(dataDiPartenza, "YYYY-MM-DD");
    dataSommandoReatoYear.add(arrayperiod[0], 'years').calendar();
+   console.warn('dataSommandoReatoYear',dataSommandoReatoYear);
    dataSommandoReatoYear.add(arrayperiod[1], 'months').calendar();
+   console.warn('dataSommandoReatoYear',dataSommandoReatoYear);
    dataSommandoReatoYear.add(arrayperiod[2], 'days').calendar();
    dataSommandoReatoYear=moment(dataSommandoReatoYear, "YYYY-MM-DD");
    console.warn('dataSommandoReatoYear',dataSommandoReatoYear);
