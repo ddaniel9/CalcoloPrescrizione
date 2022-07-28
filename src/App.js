@@ -59,7 +59,7 @@ export default class App extends Component {
         dataDiPartenza: moment(new Date()).format("YYYY-MM-DD"),
         // dataDiPartenza:null,
         dropdownValueME: -1,
-        dropdownValueNum: 'Nessuna',
+        // dropdownValueNum: 'Nessuna',
         dropdownValueCirc: 0.33,
         dropdownValueInterr: -1,
         myNumber:'6',
@@ -150,9 +150,10 @@ Calcola(){
       giorniTot=this.PeriodoConIncrementoFrazionarioInGiorni(dropdownValueCirc,myNumber,0,0);
       periodoTotale=(giorniTot/365);
     }
+    console.warn('dropdownValueInterr',dropdownValueInterr);
     console.warn('giorniTot',giorniTot);
     if((periodoTotale<dropdownValueME & dropdownValueME!=-1)){
-      periodoTotale=dropdownValueME;
+      periodoTotale=dropdownValueME; 
       giorniTot=(periodoTotale*365);
       console.warn('giorniTot',giorniTot);
     }
@@ -193,6 +194,41 @@ Calcola(){
 
 }
 
+
+// componentDidUpdate(prevProps) {
+//   if (this.props.id !== prevProps.id) {
+//     let data = await axios
+//     .get("https://jsonplaceholder.typicode.com/todos/" + this.props.id)
+//     .then(function(response) {
+//       return response;
+//     })
+//     .catch(function(error) {
+//       console.log(error);
+//     });
+//     this.setState({ todo: data.data });
+//   }
+// }
+
+Clear(){
+  // const { dropdownValueCirc} = this.state;
+  // this.state = {
+  //   dataDiPartenza: moment(new Date()).format("YYYY-MM-DD"),
+  //   // dataDiPartenza:null,
+  //   dropdownValueME: -1,
+  //   dropdownValueCirc: 0.33,
+  //   dropdownValueInterr: -1,
+  //   myNumber:'6',
+  //   editableNumber: true
+  // }
+  // dropdownValueCirc=0.33;
+
+
+
+  this.setState({ dropdownValueCirc: 0.50, dropdownValueInterr: -1,myNumber:'6',editableNumber:true });
+  this.setState({ dropdownValueME: -1,dataDiPartenza: moment(new Date()).format("YYYY-MM-DD") });
+  // console.warn('clear',this.state.dataDiPartenza);
+  // this.render();
+}
 
 Calcola3(){
   const { dropdownValueME, 
@@ -339,7 +375,7 @@ console.warn('giorniPiuCircostanze',giorniPiuCircostanze);
         <Button
         title="Clear"
         color="#f194ff"
-        onPress={() => Alert.alert('Button with adjusted color pressed')}
+        onPress={() => this.Clear()}
         />
         </View>
           {/* <LearnMoreLinks /> */}
