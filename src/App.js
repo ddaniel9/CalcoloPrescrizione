@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React,{Component} from 'react';
+import React,{Component,useState} from 'react';
 import {DatePicker} from "react-native-common-date-picker";
 import RNPickerSelect from 'react-native-picker-select';
 import moment from "moment";
@@ -139,11 +139,10 @@ Calcola(){
   const { dropdownValueME, 
     myNumber,dropdownValueCirc,dataDiPartenza,
     editableNumber,dropdownValueInterr,dropdownValueNum } = this.state;
-
-    if(dropdownValueME!=-1){
-      myNumber=dropdownValueME;
-    }
     let periodoTotale=myNumber;
+    if(dropdownValueME!=-1){
+      periodoTotale=dropdownValueME;
+    }
     let giorniTot=this.PeriodoConIncrementoFrazionarioInGiorni(0,periodoTotale,0,0);
     //CIRCOSTANZA
     if(dropdownValueCirc!=-1){
@@ -173,8 +172,8 @@ Calcola(){
     
     let arrayperiod=this.TrasformazioneGiorniInAnni(giorniTot);
     //Data Di partenza:
-    const dataDipartenza= moment(dataDiPartenza, "YYYY-MM-DD");
-    console.warn('dataDipartenza',dataDipartenza);
+    const dataDipartenza1= moment(dataDiPartenza, "YYYY-MM-DD");
+    console.warn('dataDipartenza',dataDipartenza1);
     //DATA PIU GLI ANNI DI REATO:
    let dataSommandoReatoYear=moment(dataDiPartenza, "YYYY-MM-DD");
    dataSommandoReatoYear.add(arrayperiod[0], 'years').calendar();
@@ -225,10 +224,16 @@ Clear(){
 
 
   this.setState({ dropdownValueCirc: 0.50, dropdownValueInterr: -1,myNumber:'6',editableNumber:true });
-  this.setState({ dropdownValueME: -1,dataDiPartenza: moment(new Date()).format("YYYY-MM-DD") });
-  // console.warn('clear',this.state.dataDiPartenza);
+  this.setState({ dropdownValueME: -1,dataDiPartenza: moment() });
+  console.warn('clear',this.state.dataDiPartenza= moment());
   // this.render();
 }
+
+dateChanged = (provider, d) => {
+  console.warn(d);
+  this.setState({ [provider]: d });
+}
+
 
 Calcola3(){
   const { dropdownValueME, 
@@ -302,7 +307,8 @@ console.warn('giorniPiuCircostanze',giorniPiuCircostanze);
   render() { 
     const { dropdownValueME,
       myNumber,dropdownValueCirc,dataDiPartenza,
-      editableNumber,dropdownValueInterr,dropdownValueNum } = this.state
+      editableNumber,dropdownValueInterr,dropdownValueNum } = this.state;
+      // const [date, setDate] = useState(new Date());
   return (
     <SafeAreaView style={styles.container} >
       <StatusBar />
@@ -310,7 +316,10 @@ console.warn('giorniPiuCircostanze',giorniPiuCircostanze);
         contentInsetAdjustmentBehavior="automatic"
         > */}
         <View >
-            <DatePicker confirm={date => {console.warn(date);this.setState({dataDiPartenza:date})}}/>
+            <DatePicker
+             onValueChange={selectedDate  => console.warn(selectedDate)}
+            //  onDateChange={this.dateChanged.bind(this, "dataDiPartenza")}
+               confirm={date => {this.dateChanged.bind(this, "dataDiPartenza");this.setState({dataDiPartenza:date})}}/>
         <Text>Massimo Edittale</Text>
        
               <RNPickerSelect style={styles.selectBoxMax}
