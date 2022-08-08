@@ -107,17 +107,25 @@ TrasformazionePeriodoInGiorni(anni,mesi,giorni){
 }
 
 TrasformazioneGiorniInAnni(giorniPer){
+//   years = totalDays//365
+// months = (totalDays%365)//30
+// days = (totalDays%365)%30
+
   console.warn('giorniPer',giorniPer);
+  // let anniTot=parseInt(giorniPer/365);
+  // let mesiTot=giorniPer%365; 
+  // let giorniTot=0;
+  // if(mesiTot<=30){
+  //   giorniTot=parseInt(mesiTot);
+  //   mesiTot=0;
+  // }else{
+  //   giorniTot=parseInt(mesiTot%30);
+  //   mesiTot=parseInt(mesiTot/30); 
+  // }
   let anniTot=parseInt(giorniPer/365);
-  let mesiTot=giorniPer%365;
-  let giorniTot=0;
-  if(mesiTot<=30){
-    giorniTot=parseInt(mesiTot);
-    mesiTot=0;
-  }else{
-    giorniTot=parseInt(mesiTot%30);
-    mesiTot=parseInt(mesiTot/30); 
-  }
+  let mesiTot=parseInt((giorniPer%365)/30.417);
+  let giorniTot=parseInt((giorniPer%365)%30.417); 
+
   // let arrays= Array(anniTot,mesiTot,giorniTot);
   let arrays = [anniTot, mesiTot, giorniTot];
   
