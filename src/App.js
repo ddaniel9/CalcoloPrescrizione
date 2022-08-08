@@ -10,6 +10,7 @@ import React,{Component,useState} from 'react';
 import {DatePicker} from "react-native-common-date-picker";
 import RNPickerSelect from 'react-native-picker-select';
 import moment from "moment";
+import DynamicComponent from '../src/component/DynamicComponent'
 
 // import SelectDropdown from 'react-native-select-dropdown'
 // import type {Node} from 'react'; 
@@ -139,6 +140,7 @@ Calcola(){
   const { dropdownValueME, 
     myNumber,dropdownValueCirc,dataDiPartenza,
     editableNumber,dropdownValueInterr,dropdownValueNum } = this.state;
+    this._b.getValues();
     let periodoTotale=myNumber;
     if(dropdownValueME!=-1){
       periodoTotale=dropdownValueME;
@@ -366,7 +368,7 @@ console.warn('giorniPiuCircostanze',giorniPiuCircostanze);
             ]}
             onValueChange={this.handleDropdownChange('dropdownValueCirc')}
         />
-         <Text>Interruzione</Text>
+        <Text>Interruzione</Text>
         <RNPickerSelect
             value={dropdownValueInterr}
             placeholder={{label: "Nessuna", value: -1}}
@@ -375,6 +377,9 @@ console.warn('giorniPiuCircostanze',giorniPiuCircostanze);
             ]}
             onValueChange={this.handleDropdownChange('dropdownValueInterr')}
         />
+        <Separator />
+        <Text>Sospensioni</Text>
+        <DynamicComponent  ref={ref => (this._b = ref)} />
         <Separator />
         <View style={styles.fixToText}>
         <Button
