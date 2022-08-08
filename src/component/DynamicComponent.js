@@ -66,6 +66,7 @@ class DynamicComponent extends Component {
   //function to console the output
   getValues = () => {
     console.log('Data',this.state.inputData);
+    return this.state.inputData;
   }
 
 
@@ -77,14 +78,14 @@ class DynamicComponent extends Component {
         })}
         <View style= {styles.row}>
           <View style={{margin: 10}}>
-        <Button title='+' onPress={() => this.addTextInput(this.state.textInput.length)} />
+        <Button  style= {styles.buttonView} title='+' onPress={() => this.addTextInput(this.state.textInput.length)} />
         </View>
         <View style={{margin: 10}}>
-        <Button title='-' onPress={() => this.removeTextInput()} />
+        <Button style= {styles.buttonView} title='-' onPress={() => this.removeTextInput()} />
         </View>
         </View>
         
-        <Button title='Get Values' onPress={() => this.getValues()} />
+        {/* <Button title='Get Values' onPress={() => this.getValues()} /> */}
       </View>
     )
   }
@@ -99,7 +100,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   buttonView: {
-  flexDirection: 'row'
+  flexDirection: 'row',
+  // height: 37,
+  color:"#f194ff",
+  width: 200,
   },
   textInputD: {
     flexDirection: 'row',

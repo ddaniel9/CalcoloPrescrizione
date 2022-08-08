@@ -102,7 +102,7 @@ export default class App extends Component {
 
 
 TrasformazionePeriodoInGiorni(anni,mesi,giorni){
-    let giorniTot=(anni*365)+(mesi*30)+(giorni);
+    let giorniTot=(anni*365)+(mesi*30)+(giorni*1);
     return giorniTot;
 }
 
@@ -112,10 +112,11 @@ TrasformazioneGiorniInAnni(giorniPer){
   let mesiTot=giorniPer%365;
   let giorniTot=0;
   if(mesiTot<=30){
-    giorniTot=mesiTot;
+    giorniTot=parseInt(mesiTot);
+    mesiTot=0;
   }else{
-    mesiTot=parseInt(mesiTot/30); 
     giorniTot=parseInt(mesiTot%30);
+    mesiTot=parseInt(mesiTot/30); 
   }
   // let arrays= Array(anniTot,mesiTot,giorniTot);
   let arrays = [anniTot, mesiTot, giorniTot];
@@ -136,11 +137,22 @@ IncrementoFrazionario(periodoEdittaleInGiorni,incremFraz){
  return (periodoEdittaleInGiorni*incremFraz) + periodoEdittaleInGiorni;
 }
 
+getGiorniSospensione(){
+  let tot=0;
+  let dataArray = this._b.getValues();
+  if (dataArray.length !== 0){
+    dataArray.forEach(element => {
+      tot+= parseInt(element.text)
+    });
+  }
+  console.log("tot: ", tot);
+  return tot;
+}
+
 Calcola(){
   const { dropdownValueME, 
     myNumber,dropdownValueCirc,dataDiPartenza,
     editableNumber,dropdownValueInterr,dropdownValueNum } = this.state;
-    this._b.getValues();
     let periodoTotale=myNumber;
     if(dropdownValueME!=-1){
       periodoTotale=dropdownValueME;
@@ -171,7 +183,9 @@ Calcola(){
       giorniTot=this.IncrementoFrazionario(giorniTot,dropdownValueInterr);
       console.warn('giorniTot',giorniTot);
     }
-    
+    console.log("giorniTot: ", giorniTot);
+    giorniTot+=this.getGiorniSospensione();
+    console.log("giorniTot con sosp: ", giorniTot);
     let arrayperiod=this.TrasformazioneGiorniInAnni(giorniTot);
     //Data Di partenza:
     const dataDipartenza1= moment(dataDiPartenza, "YYYY-MM-DD");
