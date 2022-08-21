@@ -139,7 +139,8 @@ getGiorniSospensione(){
   let dataArray = this._b.getValues();
   if (dataArray.length !== 0){
     dataArray.forEach(element => {
-      tot+= parseInt(element.text)
+      if(isNaN(element)){tot+=0}else{
+      tot+= parseInt(element.text)}
     });
   }
   console.log("tot: ", tot);
@@ -181,6 +182,7 @@ Calcola(){
       // console.warn('giorniTot',giorniTot);
     }
     console.log("giorniTot: ", giorniTot);
+    //SOSPENSIONE
     giorniTot+=this.getGiorniSospensione();
     console.log("giorniTot con sosp: ", giorniTot);
     let arrayperiod=this.TrasformazioneGiorniInAnni(giorniTot);
