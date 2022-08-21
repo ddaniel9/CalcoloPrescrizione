@@ -38,6 +38,15 @@ class DynamicComponent extends Component {
     this.setState({ textInput,inputData });
   }
 
+  //function to remove all TextInput dynamically
+  removeAllTextInput = () => {
+    let textInput = this.state.textInput;
+    let inputData = this.state.inputData;
+    textInput=[];
+    inputData=[];
+    this.setState({ textInput,inputData });
+  }
+
   //function to add text from TextInputs into single array
   addValues = (text, index) => {
     let dataArray = this.state.inputData;
@@ -68,6 +77,8 @@ class DynamicComponent extends Component {
     console.log('Data',this.state.inputData);
     return this.state.inputData;
   }
+
+
 
 
   render(){

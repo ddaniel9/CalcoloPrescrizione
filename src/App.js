@@ -139,8 +139,10 @@ getGiorniSospensione(){
   let dataArray = this._b.getValues();
   if (dataArray.length !== 0){
     dataArray.forEach(element => {
-      if(isNaN(element)){tot+=0}else{
-      tot+= parseInt(element.text)}
+      console.log("element: ", element);
+      if(typeof parseInt(element.text) === 'number'){
+      tot+= parseInt(element.text) 
+    }
     });
   }
   console.log("tot: ", tot);
@@ -243,6 +245,7 @@ Clear(){
   // console.log(this._c.date);
   this.setState({ dropdownValueCirc: 0.50, dropdownValueInterr: -1,myNumber:'6',editableNumber:true });
   this.setState({ dropdownValueME: -1,dataDiPartenza: "" });
+  this._b.removeAllTextInput();
   // console.warn('clear',this.state.dataDiPartenza= moment());
   // this.render();
 }
