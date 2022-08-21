@@ -28,23 +28,6 @@ import {
 } from 'react-native';
 
 
-
-const sports = [
-  {
-    label: 'Football',
-    value: 'football',
-  },
-  {
-    label: 'Baseball',
-    value: 'baseball',
-  },
-  {
-    label: 'Hockey',
-    value: 'hockey',
-  },
-];
-
-
 const Separator = () => (
   <View style={styles.separator} />
 );
@@ -91,7 +74,7 @@ export default class App extends Component {
   handleDropdownChange = (name) => (value) => {
     let editableNumberT= false;
     if(name=='dropdownValueME' && value==-1){
-      console.warn(name,value);
+      // console.warn(name,value);
       editableNumberT=true;
        }
 
@@ -111,7 +94,7 @@ TrasformazioneGiorniInAnni(giorniPer){
 // months = (totalDays%365)//30
 // days = (totalDays%365)%30
 
-  console.warn('giorniPer',giorniPer);
+  // console.warn('giorniPer',giorniPer);
   // let anniTot=parseInt(giorniPer/365);
   // let mesiTot=giorniPer%365; 
   // let giorniTot=0;
@@ -129,15 +112,15 @@ TrasformazioneGiorniInAnni(giorniPer){
   // let arrays= Array(anniTot,mesiTot,giorniTot);
   let arrays = [anniTot, mesiTot, giorniTot];
   
-  console.warn('arrays',arrays);
+  // console.warn('arrays',arrays);
   return arrays;
 }
 
 PeriodoConIncrementoFrazionarioInGiorni(incremFraz,anniCondanna,mesiCondanna,giorniCondanna){
   let periodoEdittaleInGiorni=this.TrasformazionePeriodoInGiorni(anniCondanna,mesiCondanna,giorniCondanna);
-  console.warn('periodoEdittaleInGiorni',periodoEdittaleInGiorni);
+  // console.warn('periodoEdittaleInGiorni',periodoEdittaleInGiorni);
   let edittaleIngiorni= this.IncrementoFrazionario(periodoEdittaleInGiorni,incremFraz);
-  console.warn('edittaleIngiorni',edittaleIngiorni);
+  // console.warn('edittaleIngiorni',edittaleIngiorni);
   return edittaleIngiorni;
 }
 
@@ -168,28 +151,28 @@ Calcola(){
     let giorniTot=this.PeriodoConIncrementoFrazionarioInGiorni(0,periodoTotale,0,0);
     //CIRCOSTANZA
     if(dropdownValueCirc!=-1){
-      giorniTot=this.PeriodoConIncrementoFrazionarioInGiorni(dropdownValueCirc,myNumber,0,0);
+      giorniTot=this.PeriodoConIncrementoFrazionarioInGiorni(dropdownValueCirc,periodoTotale,0,0);
       periodoTotale=(giorniTot/365);
     }
-    console.warn('dropdownValueInterr',dropdownValueInterr);
-    console.warn('giorniTot',giorniTot);
+    // console.warn('dropdownValueInterr',dropdownValueInterr);
+    // console.warn('giorniTot',giorniTot);
     if((periodoTotale<dropdownValueME & dropdownValueME!=-1)){
       periodoTotale=dropdownValueME; 
       giorniTot=(periodoTotale*365);
-      console.warn('giorniTot',giorniTot);
+      // console.warn('giorniTot',giorniTot);
     }
     
     if((dropdownValueME==-1 && periodoTotale<6)){
       periodoTotale=6;
       giorniTot=(periodoTotale*365);
-      console.warn('giorniTot',giorniTot);
+      // console.warn('giorniTot',giorniTot);
     }
     
-    console.warn('dropdownValueInterr',dropdownValueInterr);
+    // console.warn('dropdownValueInterr',dropdownValueInterr);
     //INTERRUZIONE
     if(dropdownValueInterr!=-1){
       giorniTot=this.IncrementoFrazionario(giorniTot,dropdownValueInterr);
-      console.warn('giorniTot',giorniTot);
+      // console.warn('giorniTot',giorniTot);
     }
     console.log("giorniTot: ", giorniTot);
     giorniTot+=this.getGiorniSospensione();
@@ -197,16 +180,16 @@ Calcola(){
     let arrayperiod=this.TrasformazioneGiorniInAnni(giorniTot);
     //Data Di partenza:
     const dataDipartenza1= moment(dataDiPartenza, "YYYY-MM-DD");
-    console.warn('dataDipartenza',dataDipartenza1);
+    // console.warn('dataDipartenza',dataDipartenza1);
     //DATA PIU GLI ANNI DI REATO:
    let dataSommandoReatoYear=moment(dataDiPartenza, "YYYY-MM-DD");
    dataSommandoReatoYear.add(arrayperiod[0], 'years').calendar();
-   console.warn('dataSommandoReatoYear',dataSommandoReatoYear);
+  //  console.warn('dataSommandoReatoYear',dataSommandoReatoYear);
    dataSommandoReatoYear.add(arrayperiod[1], 'months').calendar();
-   console.warn('dataSommandoReatoYear',dataSommandoReatoYear);
+  //  console.warn('dataSommandoReatoYear',dataSommandoReatoYear);
    dataSommandoReatoYear.add(arrayperiod[2], 'days').calendar();
    dataSommandoReatoYear=moment(dataSommandoReatoYear, "YYYY-MM-DD");
-   console.warn('dataSommandoReatoYear',dataSommandoReatoYear);
+  //  console.warn('dataSommandoReatoYear',dataSommandoReatoYear);
 
  
     Alert.alert("La prescrizione risulta di anni e in data: ",
@@ -245,87 +228,90 @@ Clear(){
   // }
   // dropdownValueCirc=0.33;
 
-
-
+  // console.log(this._c.date);
+  // this._c.date=moment().format("YYYY-MM-DD");
+  // this._c.Date=moment().format("YYYY-MM-DD");
+  // this._c.defaultDates=['2015-10-10', '2020-01-01'];
+  // console.log(this._c.date);
   this.setState({ dropdownValueCirc: 0.50, dropdownValueInterr: -1,myNumber:'6',editableNumber:true });
-  this.setState({ dropdownValueME: -1,dataDiPartenza: moment() });
-  console.warn('clear',this.state.dataDiPartenza= moment());
+  this.setState({ dropdownValueME: -1,dataDiPartenza: "" });
+  // console.warn('clear',this.state.dataDiPartenza= moment());
   // this.render();
 }
 
 dateChanged = (provider, d) => {
-  console.warn(d);
+  // console.warn(d);
   this.setState({ [provider]: d });
 }
 
 
-Calcola3(){
-  const { dropdownValueME, 
-    myNumber,dropdownValueCirc,dataDiPartenza,
-    editableNumber,dropdownValueInterr,dropdownValueNum } = this.state;
-    if(dropdownValueME!=-1){
-      myNumber=dropdownValueME;
-    }
-//DATA DI PARTENZA:
-   const dataDipartenza= moment(dataDiPartenza, "YYYY-MM-DD");
-   console.warn('dataDipartenza',dataDipartenza);
-//DATA PIU GLI ANNI DI REATO:
-   let dataSommandoReatoYear=moment(dataDiPartenza, "YYYY-MM-DD");
-   dataSommandoReatoYear.add(myNumber, 'years').calendar();
-   dataSommandoReatoYear=moment(dataSommandoReatoYear, "YYYY-MM-DD");
-   console.warn('dataSommandoReatoYear',dataSommandoReatoYear);
-//GIORNI TRA DATA DI PARTENZA E DATA DI REATO(GIORNI DI REATO):
-   let dateDiff = dataSommandoReatoYear.diff(dataDipartenza, 'days');
-   console.warn('dateDiff',dateDiff);
-//VERIFICA SE è PRESENTE LA CIRCOSTANZA:
-let giorniPiuCircostanze;
-if(dropdownValueCirc!=-1){
-  //GIORNI TRA DATA DI PARTENZA E DATA DI REATO PIU' LE CIRCOSTANZE:
-  giorniPiuCircostanze=((dateDiff)*(dropdownValueCirc))+dateDiff;
-  console.warn('dropdownValueCirc',dropdownValueCirc);
-}else{
-  giorniPiuCircostanze=dateDiff;
-}
-console.warn('giorniPiuCircostanze',giorniPiuCircostanze);
-//DATA TRA DATA DI PARTENZA E DATA DI REATO PIU' LE CIRCOSTANZE:
-  let dataSommandoCircostanze=moment(dataDiPartenza, "YYYY-MM-DD");
-  dataSommandoCircostanze.add(giorniPiuCircostanze, 'days').calendar();
-  console.warn('dataSommandoCircostanze',dataSommandoCircostanze);
-//ANNI di Differenza TRA reato con circostanza e Data Di Partenza
-  let anniDiffCirc = dataSommandoCircostanze.diff(dataDipartenza, 'years');
-// CONTROLLO differenza ANNI:
-    if(anniDiffCirc<6){
-      anniDiffCirc=6;
-    }
+// Calcola3(){
+//   const { dropdownValueME, 
+//     myNumber,dropdownValueCirc,dataDiPartenza,
+//     editableNumber,dropdownValueInterr,dropdownValueNum } = this.state;
+//     if(dropdownValueME!=-1){
+//       myNumber=dropdownValueME;
+//     }
+// //DATA DI PARTENZA:
+//    const dataDipartenza= moment(dataDiPartenza, "YYYY-MM-DD");
+//    console.warn('dataDipartenza',dataDipartenza);
+// //DATA PIU GLI ANNI DI REATO:
+//    let dataSommandoReatoYear=moment(dataDiPartenza, "YYYY-MM-DD");
+//    dataSommandoReatoYear.add(myNumber, 'years').calendar();
+//    dataSommandoReatoYear=moment(dataSommandoReatoYear, "YYYY-MM-DD");
+//    console.warn('dataSommandoReatoYear',dataSommandoReatoYear);
+// //GIORNI TRA DATA DI PARTENZA E DATA DI REATO(GIORNI DI REATO):
+//    let dateDiff = dataSommandoReatoYear.diff(dataDipartenza, 'days');
+//    console.warn('dateDiff',dateDiff);
+// //VERIFICA SE è PRESENTE LA CIRCOSTANZA:
+// let giorniPiuCircostanze;
+// if(dropdownValueCirc!=-1){
+//   //GIORNI TRA DATA DI PARTENZA E DATA DI REATO PIU' LE CIRCOSTANZE:
+//   giorniPiuCircostanze=((dateDiff)*(dropdownValueCirc))+dateDiff;
+//   console.warn('dropdownValueCirc',dropdownValueCirc);
+// }else{
+//   giorniPiuCircostanze=dateDiff;
+// }
+// console.warn('giorniPiuCircostanze',giorniPiuCircostanze);
+// //DATA TRA DATA DI PARTENZA E DATA DI REATO PIU' LE CIRCOSTANZE:
+//   let dataSommandoCircostanze=moment(dataDiPartenza, "YYYY-MM-DD");
+//   dataSommandoCircostanze.add(giorniPiuCircostanze, 'days').calendar();
+//   console.warn('dataSommandoCircostanze',dataSommandoCircostanze);
+// //ANNI di Differenza TRA reato con circostanza e Data Di Partenza
+//   let anniDiffCirc = dataSommandoCircostanze.diff(dataDipartenza, 'years');
+// // CONTROLLO differenza ANNI:
+//     if(anniDiffCirc<6){
+//       anniDiffCirc=6;
+//     }
 
 
-    //TRAFORMAZIONE:
-    let dataDipartenza1= dataDipartenza;
-    //dataSommandoCircostanze=a
-    let years = dataSommandoCircostanze.diff(dataDipartenza, 'year');
-    dataDipartenza.add(years, 'years');
+//     //TRAFORMAZIONE:
+//     let dataDipartenza1= dataDipartenza;
+//     //dataSommandoCircostanze=a
+//     let years = dataSommandoCircostanze.diff(dataDipartenza, 'year');
+//     dataDipartenza.add(years, 'years');
 
-    let months = dataSommandoCircostanze.diff(dataDipartenza, 'months');
-    dataDipartenza.add(months, 'months');
+//     let months = dataSommandoCircostanze.diff(dataDipartenza, 'months');
+//     dataDipartenza.add(months, 'months');
 
-    let days = dataSommandoCircostanze.diff(dataDipartenza, 'days');
-    console.warn('anniDiffCirc',anniDiffCirc);
-    Alert.alert("La prescrizione risulta di anni e in data: ",
-    years.toString() + " anni " 
-   + months.toString() + " mesi " 
-   + days.toString() + " giorni " 
-    + " "+ dataSommandoCircostanze.format("DD-MM-YYYY") );
-  //  let daysLeft = dateDiff !== null && !isNaN(dateDiff) ? (
-  //   <Text>{dateDiff} Days until your </Text>) : null;
-    // Alert.alert(dateDiff);
-    // console.warn('dateDiff ',dateDiff);
+//     let days = dataSommandoCircostanze.diff(dataDipartenza, 'days');
+//     console.warn('anniDiffCirc',anniDiffCirc);
+//     Alert.alert("La prescrizione risulta di anni e in data: ",
+//     years.toString() + " anni " 
+//    + months.toString() + " mesi " 
+//    + days.toString() + " giorni " 
+//     + " "+ dataSommandoCircostanze.format("DD-MM-YYYY") );
+//   //  let daysLeft = dateDiff !== null && !isNaN(dateDiff) ? (
+//   //   <Text>{dateDiff} Days until your </Text>) : null;
+//     // Alert.alert(dateDiff);
+//     // console.warn('dateDiff ',dateDiff);
     
-    // console.warn('+ 1/4:  ',giorniPiuCircostanze);
+//     // console.warn('+ 1/4:  ',giorniPiuCircostanze);
     
-    // console.warn('dataSommandoCircostanze:  ',dataSommandoCircostanze.format('YYYY-MM-DD'));
-    // console.warn('dataSommandoReatoYear ',dataSommandoReatoYear.format('YYYY-MM-DD'));
-    // console.warn('dataDipartenza',dataDipartenza.format('YYYY-MM-DD'));
-}
+//     // console.warn('dataSommandoCircostanze:  ',dataSommandoCircostanze.format('YYYY-MM-DD'));
+//     // console.warn('dataSommandoReatoYear ',dataSommandoReatoYear.format('YYYY-MM-DD'));
+//     // console.warn('dataDipartenza',dataDipartenza.format('YYYY-MM-DD'));
+// }
 
 
   render() { 
@@ -340,7 +326,8 @@ console.warn('giorniPiuCircostanze',giorniPiuCircostanze);
         contentInsetAdjustmentBehavior="automatic"
         > */}
         <View >
-            <DatePicker
+            <DatePicker ref={ref => (this._c = ref)}
+            // selectedDateMarkType='dot'
              onValueChange={selectedDate  => console.warn(selectedDate)}
             //  onDateChange={this.dateChanged.bind(this, "dataDiPartenza")}
                confirm={date => {this.dateChanged.bind(this, "dataDiPartenza");this.setState({dataDiPartenza:date})}}/>
