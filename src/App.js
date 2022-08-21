@@ -72,15 +72,21 @@ export default class App extends Component {
 
 
   handleDropdownChange = (name) => (value) => {
-    let editableNumberT= false;
-    if(name=='dropdownValueME' && value==-1){
-      // console.warn(name,value);
-      editableNumberT=true;
-       }
-
-    this.setState({ [name]: value,
-      editableNumber: editableNumberT });
-    console.log(value);
+    
+    if(name=='dropdownValueME'){
+      let editableNumberT= false;
+      if(value==-1){
+        editableNumberT=true;
+      }
+      this.setState({ editableNumber: editableNumberT });
+    }
+    this.setState({ [name]: value });
+    
+    // if(name=='dropdownValueME' && value==-1){
+    //   // console.warn(name,value);
+    //   editableNumberT=true;
+    //    }
+    // console.log(value);
  }
 
 
